@@ -5,10 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minuto de Paz</title>
     <style>
+        :root {
+            --bg-bible: #f7f4ea;
+            --card-bg: #fffdf9;
+            --text-main: #3b2f2f;
+            --text-muted: #6b5b52;
+            --accent-brown: #5a4a42;
+            --accent-gold: #c29b38;
+            --border-bible: #e6dec5;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            background-color: var(--bg-bible);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,163 +27,180 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            text-align: center;
+            overflow: hidden;
         }
-        .container {
-            background: #fff;
+
+        .screen {
+            background: var(--card-bg);
+            border: 1px solid var(--border-bible);
             padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(90, 74, 66, 0.08);
+            max-width: 520px;
             width: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            text-align: center;
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            opacity: 0;
+            transform: translateY(12px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .visible {
+
+        .screen.active {
             opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
             z-index: 10;
         }
-        .hidden {
-            opacity: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
+
         h1 {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: var(--accent-brown);
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
         }
+
         p {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.7;
+            color: var(--text-muted);
             margin-bottom: 20px;
-            color: #555;
         }
-        .fechamento {
-            font-weight: 600;
-            color: #27ae60;
-            margin-top: 30px;
-            font-size: 1.2rem;
-        }
-        .tema-destaque {
-            font-weight: bold;
-            color: #2980b9;
-            font-size: 1.3rem;
-            margin: 20px 0;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        audio {
-            margin-top: 20px;
-            width: 100%;
-        }
-        .gratis-texto {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #7f8c8d;
+
+        .slogan {
+            font-size: 1.15rem;
+            color: var(--accent-brown);
             font-style: italic;
+        }
+
+        .btn-acao {
+            background-color: var(--accent-brown);
+            color: #fffdf9;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(90, 74, 66, 0.15);
+            margin-top: 10px;
+        }
+
+        .btn-acao:hover {
+            background-color: #43352f;
+            transform: translateY(-1px);
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .texto-reflexao {
+            max-height: 160px;
+            overflow-y: auto;
+            text-align: left;
+            padding: 12px 15px;
+            background: #fdfbf7;
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.95krem;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .texto-reflexao.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 15px;
+            right: 25px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            opacity: 0.75;
         }
     </style>
 </head>
 <body>
 
-    <!-- Tela Inicial -->
-    <div id="tela-inicio" class="container visible">
+    <!-- Tela 1: Splash / Boas-vindas -->
+    <div id="tela-splash" class="screen active">
         <h1>Minuto de Paz</h1>
-        <p>Pare um pouco, respire fundo e acalme o coração.</p>
-        <button onclick="carregarReflexao()">Iniciar Reflexão</button>
+        <p class="slogan">Sua dose diária de paz e conhecimento do evangelho.</p>
     </div>
 
-    <!-- Tela de Reflexão -->
-    <div id="tela-reflexao" class="container hidden">
-        <h1 id="titulo"></h1>
-        <p id="texto"></p>
+    <!-- Tela 2: Episódio de Hoje -->
+    <div id="tela-hoje" class="screen">
+        <h1>Episódio de Hoje</h1>
+        <p id="tema-hoje" style="font-weight: 500; color: var(--accent-brown);"></p>
         
+        <div id="bloco-texto" class="texto-reflexao"></div>
+
         <audio id="player-audio" controls>
-            <source id="source-audio" src="" type="audio/mpeg">
-            <track id="track-legenda" src="" kind="subtitles" srclang="pt-BR" label="Português" default>
+            <source src="20260820174404.mp3" type="audio/mpeg">
+            Seu navegador não suporta áudio.
         </audio>
-
-        <p id="fechamento" class="fechamento"></p>
-    </div>
-
-    <!-- Tela de Amanhã -->
-    <div id="tela-amanha" class="container hidden">
-        <h1>O amanhã vai acontecer</h1>
-        <p>Amanhã nós vamos conversar sobre:</p>
-        <p id="tema-amanha" class="tema-destaque"></p>
-        <button onclick="voltarInicio()">Voltar ao Início</button>
         
-        <p class="gratis-texto">Este aplicativo é e sempre será grátis para sempre.</p>
+        <div>
+            <button class="btn-acao" onclick="iniciarEpisodio()">Ouvir Reflexão</button>
+        </div>
     </div>
+
+    <!-- Tela 3: Amanhã -->
+    <div id="tela-amanha" class="screen">
+        <h1>Até amanhã</h1>
+        <p>No episódio de amanhã, falaremos sobre:</p>
+        <p id="tema-amanha" style="font-weight: 600; color: var(--accent-brown); font-size: 1.1rem;"></p>
+    </div>
+
+    <footer>Este aplicativo é e sempre será grátis para sempre.</footer>
 
     <script>
-        const bancoDeDadosJSON = {
-          "reflexoes": [
-            {
-              "id": 1,
-              "titulo": "Alívio e Descanso",
-              "texto": "Sabe quando o cansaço bate forte? Tem uma parte da Bíblia onde Jesus diz algo muito simples: 'Venham a mim, todos que estão cansados e sobrecarregados, e eu lhes darei descanso.' Essa é uma frase muito potente. Se você parar para analisar, ir até Jesus é simplesmente você fechar o seu olho... ter um momento de reflexão sobre tudo o que está acontecendo. Nesse momento, você vai conversar com Ele, vai ter a sua reflexão... e com certeza o peso vai começar a sair das suas costas. Ou você vai começar a achar soluções para aquilo que nunca imaginava. Por isso a Bíblia traz textos tão emocionantes e incríveis. Um simples parágrafo diz algo tão grandioso. E eu sei que a vida cobra caro. Pode ser que você esteja cansado do ônibus lotado... ou esteja em casa, aflito, esperando uma porta de emprego abrir. O corpo dói e a mente não para. Mas, por mais que hoje esteja difícil, lembre-se: você não está sozinho. O mesmo Jesus que te pede pra descansar, caminha com você. Acalme o peito. Respire fundo. Entregue suas preocupações agora. Amanhã é um novo dia, o sol vai raiar de novo... e Deus está cuidando do seu caminho. Descanse o seu coração hoje. Vai ficar tudo bem.",
-              "fechamento": "E lembre-se, o amanhã vai acontecer.",
-              "arquivo_audio": "audios/20260820174404.mp3",
-              "arquivo_legenda": "legendas/20260820174404.vtt",
-              "tema_amanha": "Amanhã vamos conversar sobre Mateus 6 e o que Jesus disse sobre não andarmos ansiosos com o dia de amanhã."
-            }
-          ]
+        const dados = {
+            "tema_hoje": "Vamos conversar sobre como encontrar descanso em meio ao peso do dia a dia.",
+            "texto": "Sabe quando o cansaço bate forte? Tem uma parte da Bíblia onde Jesus diz algo muito simples: 'Venham a mim, todos que estão cansados e sobrecarregados, e eu lhes darei descanso.' Essa é uma frase muito potente. Se você parar para analisar, ir até Jesus é simplesmente fechar os olhos e ter um momento de reflexão... O peso começa a sair das costas e achamos soluções que nunca imaginávamos. Por mais que hoje esteja difícil, lembre-se: você não está sozinho. O mesmo Jesus que te pede pra descansar, caminha com você.",
+            "tema_amanha": "Mateus 6 e o que Jesus disse sobre não andarmos ansiosos com o dia de amanhã."
         };
+
+        document.getElementById('tema-hoje').innerText = dados.tema_hoje;
+        document.getElementById('bloco-texto').innerText = dados.texto;
+        document.getElementById('tema-amanha').innerText = dados.tema_amanha;
 
         const player = document.getElementById('player-audio');
 
+        // Transição automática da Splash para a Tela de Hoje após 2.6 segundos
+        setTimeout(() => {
+            transicaoTelas('tela-splash', 'tela-hoje');
+        }, 2600);
+
+        function iniciarEpisodio() {
+            const bloco = document.getElementById('bloco-texto');
+            bloco.classList.add('visible');
+            player.play().catch(e => console.log("Aguardando interação de áudio", e));
+        }
+
         player.addEventListener('ended', () => {
-            alternarTelas('tela-reflexao', 'tela-amanha');
+            transicaoTelas('tela-hoje', 'tela-amanha');
         });
 
-        function carregarReflexao() {
-            const reflexaoAtual = bancoDeDadosJSON.reflexoes[0];
-            
-            document.getElementById('titulo').innerText = reflexaoAtual.titulo;
-            document.getElementById('texto').innerText = reflexaoAtual.texto;
-            document.getElementById('fechamento').innerText = reflexaoAtual.fechamento;
-            document.getElementById('tema-amanha').innerText = reflexaoAtual.tema_amanha;
-            
-            document.getElementById('source-audio').src = reflexaoAtual.arquivo_audio;
-            document.getElementById('track-legenda').src = reflexaoAtual.arquivo_legenda;
-            
-            player.load();
-
-            alternarTelas('tela-inicio', 'tela-reflexao');
-        }
-
-        function voltarInicio() {
-            alternarTelas('tela-amanha', 'tela-inicio');
-        }
-
-        function alternarTelas(idEsconder, idMostrar) {
+        function transicaoTelas(idEsconder, idMostrar) {
             const elEsconder = document.getElementById(idEsconder);
             const elMostrar = document.getElementById(idMostrar);
 
-            elEsconder.classList.remove('visible');
-            elEsconder.classList.add('hidden');
+            elEsconder.classList.remove('active');
             
             setTimeout(() => {
-                elMostrar.classList.remove('hidden');
-                elMostrar.classList.add('visible');
-            }, 500);
+                elMostrar.classList.add('active');
+            }, 300);
         }
     </script>
 </body>
