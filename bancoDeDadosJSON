@@ -1,0 +1,13 @@
+const bancoDeDadosJSON = {
+  "reflexoes": [
+    {
+      "id": 1,
+      "titulo": "Alívio e Descanso",
+      "texto": "Sabe quando o cansaço bate forte? Tem uma parte da Bíblia onde Jesus diz algo muito simples: 'Venham a mim, todos que estão cansados e sobrecarregados, e eu lhes darei descanso.' Essa é uma frase muito potente. Se você parar para analisar, ir até Jesus é simplesmente você fechar o seu olho... ter um momento de reflexão sobre tudo o que está acontecendo. Nesse momento, você vai conversar com Ele, vai ter a sua reflexão... e com certeza o peso vai começar a sair das suas costas. Ou você vai começar a achar soluções para aquilo que nunca imaginava. Por isso a Bíblia traz textos tão emocionantes e incríveis. Um simples parágrafo diz algo tão grandioso. E eu sei que a vida cobra caro. Pode ser que você esteja cansado do ônibus lotado... ou esteja em casa, aflito, esperando uma porta de emprego abrir. O corpo dói e a mente não para. Mas, por mais que hoje esteja difícil, lembre-se: você não está sozinho. O mesmo Jesus que te pede pra descansar, caminha com você. Acalme o peito. Respire fundo. Entregue suas preocupações agora. Amanhã é um novo dia, o sol vai raiar de novo... e Deus está cuidando do seu caminho. Descanse o seu coração hoje. Vai ficar tudo bem.",
+      "fechamento": "E lembre-se, o amanhã vai acontecer.",
+      "arquivo_audio": "20260820174404.mp3",
+      "arquivo_legenda": "20260820174404.vtt",
+      "tema_amanha": "Amanhã vamos conversar sobre Mateus 6 e o que Jesus disse sobre não andarmos ansiosos com o dia de amanhã."
+    }
+  ]
+};
